@@ -43,19 +43,9 @@ Debloat / remove not needed files
 You can list all files you want to remove from ROM here:
 *overlay\not_needed_files.txt*
 
-**List one file in one line, like this:**
+**List one file in one line, like here:** https://github.com/mateo1111/mateo1111_Kitchen/blob/master/overlay/not_needed_files.txt
 
-	system\app\Dropbox.apk
-	
-	system\app\Hangouts.apk
-	
-	system\app\SamsungApps.apk
-	
-	system\lib\libChatOnAMSImageFilterLibs-1.0.2.so
-	
-	system\app\ChatON_MARKET.apk
-	
-	
+
 If you will change base ROM, and some files from debloat list will not exist anymore in new base,
 they'll be automatically listed here:
 
