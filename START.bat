@@ -1,4 +1,44 @@
 @echo off
+
+if exist _other\kitchen_github del _other\kitchen_github
+if not exist _other\kitchen goto START
+_other\wget.exe -O _other\kitchen_github https://github.com/mateo1111/mateo1111_Kitchen/raw/master/_other/kitchen --no-check-certificate
+
+if not exist _other\kitchen_github goto UPDATECHECK-ERROR
+
+for /f "usebackq tokens=2 delims==" %%a in (`findstr version _other\kitchen`) do set version=%%a
+for /f "usebackq tokens=2 delims==" %%a in (`findstr version _other\kitchen_github`) do set version_github=%%a
+del _other\kitchen_github
+
+if [%version_github%lolxD]==[lolxD] goto UPDATECHECK-ERROR
+if not %version%==%version_github% (
+cls
+echo.
+echo NEW VERSION FOUND !
+echo.
+echo.
+echo Newest version: %version_github%
+echo Your current version: %version%
+echo.
+echo You can update Kitchen with git pull or clone/download repository again from:
+echo https://github.com/mateo1111/mateo1111_Kitchen
+echo.
+echo.
+echo Press any key to launch outdated version of Kitchen..
+pause >nul
+goto START
+)
+
+:UPDATECHECK-ERROR
+cls
+echo Error: Can't get info about updates
+echo.
+echo Skipping..
+echo.
+timeout 3
+goto START
+
+
 :START
 set yyyy=%date:~0,4%
 set yy=%date:~2,2%
@@ -6,6 +46,67 @@ set mm=%date:~5,2%
 set dd=%date:~8,2%
 set pdate=%yyyy%%mm%%dd%
 color 0e
+
+
+
+:MENU
+cls
+echo.
+echo mateo1111's Kitchen
+echo.
+echo.
+echo.
+echo What you want to do ?
+echo.
+echo 1] Create new ROM
+echo 2] Remove current BASE ROM
+echo.
+echo 3] Settings
+echo.
+echo.
+set /p type=Choose (1-3) and confirm with ENTER: 
+if %type% == 1 goto CHECK-BASE
+if %type% == 2 goto CHANGE-BASE
+if %type% == 3 goto SETTINGS
+if [%type%haha]==[haha] goto MENU
+goto MENU
+
+
+
+:CHANGE-BASE
+cls
+if exist BASE\system\build.prop (
+echo.
+echo Current base ROM will be removed from Kitchen directory..
+echo.
+echo.
+echo Press any key to remove current base ROM..
+pause >nul
+)
+rmdir /S /Q BASE
+cls
+echo.
+echo When you will choose option to create new ROM,
+echo Kitchen will ask you for .zip package with new base ROM..
+echo.
+echo.
+echo Press any key to return to menu..
+pause >nul
+goto MENU
+
+
+:SETTINGS
+cls
+echo.
+echo.
+echo WORK IN PROGRESS...
+echo.
+echo.
+echo Press any key to return to menu..
+pause >nul
+goto MENU
+
+
 
 
 :CHECK-BASE
