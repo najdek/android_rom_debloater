@@ -3,7 +3,6 @@
 if exist _other\kitchen_github del _other\kitchen_github
 if not exist _other\kitchen goto START
 _other\wget.exe -O _other\kitchen_github https://github.com/mateo1111/mateo1111_Kitchen/raw/master/_other/kitchen --no-check-certificate
-
 if not exist _other\kitchen_github goto UPDATECHECK-ERROR
 
 for /f "usebackq tokens=2 delims==" %%a in (`findstr version _other\kitchen`) do set version=%%a
@@ -11,7 +10,7 @@ for /f "usebackq tokens=2 delims==" %%a in (`findstr version _other\kitchen_gith
 del _other\kitchen_github
 
 if [%version_github%lolxD]==[lolxD] goto UPDATECHECK-ERROR
-if not %version%==%version_github% (
+if %version%==%version_github% goto START
 cls
 echo.
 echo NEW VERSION FOUND !
@@ -27,7 +26,7 @@ echo.
 echo Press any key to launch outdated version of Kitchen..
 pause >nul
 goto START
-)
+
 
 :UPDATECHECK-ERROR
 cls
