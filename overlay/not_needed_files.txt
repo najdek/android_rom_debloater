@@ -45,7 +45,6 @@ system\app\HelpHub.apk
 system\app\MusicHub_31.apk
 system\app\VideoHub.apk
 system\app\SecCalculator2.apk
-system\app\SamsungIME.apk
 system\app\SecCalendar.apk
 system\app\SecCalendarProviderM0.apk
 system\app\SPlannerAppWidget.apk
