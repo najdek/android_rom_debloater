@@ -36,6 +36,15 @@ Script is copying all content from sub-directories in overlay\ to out\ directory
 
 
 
+**THEMES**
+
+
+Kitchen supports applying themes to apks with replacing only changed files in original apk.
+
+More info in this commit description: https://github.com/mateo1111/mateo1111_Kitchen/commit/42106e9912ca507a6259dac11ce9c86159d6bef6
+
+
+.
 
 Debloat / remove not needed files
 --------------
