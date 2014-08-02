@@ -1,8 +1,24 @@
 @echo off
+if exist clean.bat (
+color 4f
+echo.
+echo ERROR
+echo.
+echo This script should be started from Kitchen menu ..
+echo.
+echo.
+pause >nul
+exit
+)
+
 cls
 echo.
+echo.
 echo IT WILL REMOVE CURRENT BASE ROM
+echo.
 echo IT WILL ALSO REMOVE ALL CREATED .ZIP PACKAGES...
+echo.
+echo.
 pause
 
 
@@ -21,5 +37,8 @@ rmdir /S /Q BASE
 
 cls
 echo.
-echo DONE. Press any key to close..
+echo.
+echo DONE. Press any key to return to menu..
+echo.
+echo.
 pause>nul
