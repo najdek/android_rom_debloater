@@ -91,7 +91,6 @@ echo   9] Clean everything
 echo.
 echo.
 echo.
-set type=
 set /p type=Choose (1-9) and confirm with ENTER: 
 if [%type%.]==[.] goto MENU
 
