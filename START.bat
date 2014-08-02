@@ -176,6 +176,10 @@ echo CLEANING..
 rmdir /S /Q out
 if exist overlay\THESE_FILES_DONT_EXIST.txt del overlay\THESE_FILES_DONT_EXIST.txt
 if exist overlay\list.txt del overlay\list.txt
+if exist overlay_theme\THESE_APPS_DONT_EXIST.txt del overlay_theme\THESE_APPS_DONT_EXIST.txt
+if exist overlay_theme\THESE_FRAMEWORKS_DONT_EXIST.txt del overlay_theme\THESE_FRAMEWORKS_DONT_EXIST.txt
+if exist overlay_theme\app-list.txt del overlay_theme\app-list.txt
+if exist overlay_theme\framework-list.txt del overlay_theme\framework-list.txt
 
 if exist %rom_version%_%pdate%_mateo1111.zip (
 cls
@@ -200,7 +204,7 @@ echo File not found: overlay\not_needed_files.txt
 echo Debloating will be skipped...
 echo.
 pause
-goto OVERLAYS
+goto OVERLAY
 )
 
 for /f "delims=" %%f in (overlay\not_needed_files.txt) do (
@@ -208,7 +212,7 @@ if not exist out\%%f echo %%f>>overlay\THESE_FILES_DONT_EXIST.txt
 if exist out\%%f del "out\%%f"
 )
 
-:OVERLAYS
+:OVERLAY
 
 for /f "usebackq tokens=*" %%a in (`dir /b/a:d overlay`) do (
     echo:%%~nxa
@@ -221,8 +225,48 @@ xcopy overlay\%%f out /e /y
 
 if exist overlay\list.txt del overlay\list.txt
 
+
+:OVERLAY_THEME
+
+for /f "usebackq tokens=*" %%a in (`dir /b/a:d overlay_theme\app`) do (
+    echo:%%~nxa
+	echo:%%~nxa>>overlay_theme\app-list.txt
+)
+
+for /f "delims=" %%f in (overlay_theme\app-list.txt) do (
+if exist out\system\app\%%f (
+move out\system\app\%%f out\system\app\%%f.zip
+_other\7za.exe u -up1q1r2x2y2z2w2 -mx9 out\system\app\%%f.zip ".\overlay_theme\app\%%f\*"
+move out\system\app\%%f.zip out\system\app\%%f
+) else echo %%f>>overlay_theme\THESE_APPS_DONT_EXIST.txt
+)
+
+
+
+for /f "usebackq tokens=*" %%a in (`dir /b/a:d overlay_theme\framework`) do (
+    echo:%%~nxa
+	echo:%%~nxa>>overlay_theme\framework-list.txt
+)
+
+for /f "delims=" %%f in (overlay_theme\framework-list.txt) do (
+if exist out\system\framework\%%f (
+move out\system\framework\%%f out\system\framework\%%f.zip
+_other\7za.exe u -up1q1r2x2y2z2w2 -mx9 out\system\framework\%%f.zip ".\overlay_theme\framework\%%f\*"
+move out\system\framework\%%f.zip out\system\framework\%%f
+) else echo %%f>>overlay_theme\THESE_FRAMEWORKS_DONT_EXIST.txt
+)
+
+
+
+if exist overlay_theme\app-list.txt del overlay_theme\app-list.txt
+if exist overlay_theme\framework-list.txt del overlay_theme\framework-list.txt
+
+
+
 :ZIP
 _other\7za.exe u -up0q0r2x2y2z1w2 -mx9 %rom_version%_%pdate%_mateo1111.zip ".\out\META-INF" ".\out\system" ".\out\boot.img"
+
+
 
 :END
 pause
