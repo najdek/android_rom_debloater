@@ -3,8 +3,7 @@ mateo1111's ROM Kitchen
 
 My batch script for fast debloating and customizing ROMS, 
 I've tested it only with 4.3 Galaxy S3 ROMs, 
-but it should work with every ROM (for every device) which uses simple .zip structure 
-(only META-INF\, system\ and boot.img inside .zip package) 
+but it should work with every ROM (for every device).
 
 
 

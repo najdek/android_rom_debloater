@@ -60,7 +60,10 @@ color 0c
 echo CLEANING..
 rmdir /S /Q out
 if exist *.tmp del *.tmp
-if not exist BASE\system\build.prop rmdir /S /Q BASE
+if not exist BASE\system\build.prop (
+if exist _other\CURRENT_BASE del _other\CURRENT_BASE
+rmdir /S /Q BASE
+)
 if exist overlay\THESE_FILES_DONT_EXIST.txt del overlay\THESE_FILES_DONT_EXIST.txt
 if exist overlay\list.txt del overlay\list.txt
 if exist overlay_theme\THESE_APPS_DONT_EXIST.txt del overlay_theme\THESE_APPS_DONT_EXIST.txt
@@ -74,11 +77,15 @@ if exist overlay_theme\framework-list.txt del overlay_theme\framework-list.txt
 cls
 set GO-BACK-TO-MENU=0
 if exist BASE\system\build.prop (set BASE=1) else (set BASE=0)
+set current_base=
+if %BASE% == 1 ( if exist _other\CURRENT_BASE ( set /p current_base=<_other\CURRENT_BASE ) )
 color 0e
 echo.
 echo       mateo1111 ROM Kitchen - %version%
 echo      ------------------------------------
 echo.
+if not [%current_base%.]==[.] ( echo  CURRENT BASE ROM: %current_base% ) else ( echo. )
+echo -------------------------------------------------------------------
 echo.
 echo.
 echo   1] Create new ROM
@@ -89,6 +96,8 @@ echo.
 echo.
 echo   9] Clean everything
 echo.
+echo.
+echo -------------------------------------------------------------------
 echo.
 echo.
 set /p type=Choose (1-9) and confirm with ENTER: 
@@ -121,6 +130,7 @@ echo Press any key to remove current base ROM..
 pause >nul
 )
 color 0c
+if exist _other\CURRENT_BASE del _other\CURRENT_BASE
 rmdir /S /Q BASE
 cls
 color 0e
@@ -158,6 +168,7 @@ echo.
 SET /P customzip=
 cls
 if [%customzip%lol]==[lol] goto CHECK-BASE
+for %%F in ("%customzip%") do set customzip_name=%%~nxF
 if %customzip%==%customzip:.zip=% (
 echo This is not a .ZIP file 
 pause
@@ -166,15 +177,17 @@ goto CHECK-BASE
 echo.
 echo.
 echo You will use this ROM as new base:
-echo %customzip%
+echo %customzip_name%
 echo.
 echo.
 echo.
 pause
 color 0c
 rmdir /S /Q BASE
+if exist _other\CURRENT_BASE del _other\CURRENT_BASE
 mkdir BASE
 _other\7za.exe x %customzip% -oBASE
+echo %customzip_name%>_other\CURRENT_BASE
 echo.
 echo.
 goto CHECK-BASE
@@ -198,7 +211,11 @@ color 0e
 echo.
 echo.
 echo This ROM will be used as base
+echo -------------------------------
 echo.
+if not [%customzip_name%.]==[.] ( echo %customzip_name% ) else (
+if not [%current_base%.]==[.] echo %current_base%
+)
 echo.
 echo %rom_version% (%build_id%)
 echo Android %rom_android%
@@ -300,7 +317,7 @@ pause >nul
 if exist %rom_version%_%pdate%_mateo1111.zip del %rom_version%_%pdate%_mateo1111.zip
 )
 color 0c
-_other\7za.exe u -up0q0r2x2y2z1w2 -mx9 %rom_version%_%pdate%_mateo1111.zip ".\out\META-INF" ".\out\system" ".\out\boot.img"
+_other\7za.exe u -up0q0r2x2y2z1w2 -mx9 %rom_version%_%pdate%_mateo1111.zip ".\out\*"
 
 
 
